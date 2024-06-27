@@ -1,13 +1,18 @@
 import sqlalchemy as sa
 import pandas as pd
 import io
+import os
 
+PWD = os.getenv('POSTGRES_PWD')
+HOST = os.getenv('POSTGRES_HOST')
+PORT = os.getenv('POSTGRES_PORT')
+DB = os.getenv('POSTGRES_DB')
 #
 # Load drugs from DB and leaflets from TDT.xml file. Finally, it writes the dataset file containing drugs and leaflets' references.
 #
 class DatasetBuilder:
     def __init__(self):
-        self.engine = sa.create_engine('postgresql://postgres:ppa2vms@localhost:5433/gabrieledevito')
+        self.engine = sa.create_engine(f"postgresql://postgres:{PWD}@{HOST}:{PORT}/{DB}")
 
         self.records = pd.read_xml('TDT.xml',dtype={"FDI_T431": "string", "FDI_T218": "string", "FDI_T219": "string", "FDI_T220": "string", "FDI_T235": "string"})
         print(self.records.count())
