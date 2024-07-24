@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "data_pipeline"
+version = "0.1.0"
+description = ""
+authors = ["Gabriele De Vito <gabriele.devito@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+urllib3 = "^2.1.0"
+pandas = "^2.1.4"
+psycopg2-binary = "^2.9.9"
+sqlalchemy = "^2.0.25"
+lxml = "^5.1.0"
+openpyxl = "^3.1.2"
+beautifulsoup4 = "^4.12.3"
+openai = "^1.25.0"
+pandarallel = "^1.6.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
