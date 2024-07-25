@@ -25,3 +25,8 @@ In order to run the Heliot API server, you must run the launch script: `poetry r
 
 ### Run the Heliot Web Application
 To run the Heliot web Application, simply run: `poetry run streamlit run ./cdss/heliot/app/webapp.py`
+
+### Datasets
+In the main folder (`heliot_cdss`) there are the following datasets:
+1. patients_synthetic.xslx, the synthetic dataset used for the expertiments
+2. results_full_synth.xslx, the results produced by the Heliot CDSS analyzing the synthetic dataset 

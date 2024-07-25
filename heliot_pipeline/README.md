@@ -30,4 +30,9 @@ To create a drug subset, perform the drug_subset script: : `poetry run python ./
 ### Leaflet processing
 In order to extract the leaflet information related to the drug subset, you must run the leaflet_preproc script: `poetry run python ./data_pipeline/leaflet_preproc.py`. It will take a while. Remember that the script exploits GPT-4, so you must have a valid OPENAI API KEY.
 
-
+### Datasets
+In the main folder (`heliot_pipeline`) there are the following datasets:
+1. drugs.xslx, the full drug dataset
+2. drugs_subset.xslx, the subset of drugs used for the experiment
+3. leaflet_info.csv, the processed leaflet info for the drugs_subset dataset
+4. ingredients_synonyms.csv, the active ingredients and excipients synonyms for the drugs_subset dataset, extracted from PubChem.
