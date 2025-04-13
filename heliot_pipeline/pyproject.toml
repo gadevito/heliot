@@ -16,6 +16,7 @@ openpyxl = "^3.1.2"
 beautifulsoup4 = "^4.12.3"
 openai = "^1.25.0"
 pandarallel = "^1.6.5"
+tiktoken = "^0.8.0"
 
 
 [build-system]

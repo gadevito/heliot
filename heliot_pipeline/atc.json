@@ -1,0 +1,92 @@
+[
+    {"class": "Opioids", "atc_codes":[
+        {"atc":"N02AB03", "name":"fentanyl", "qty":275},
+        {"atc":"N02AA01", "name":"morphine", "qty":56}, 
+        {"atc":"N02AA05", "name":"oxycodone", "qty":226},
+        {"atc":"N02AB02", "name":"pethidine", "qty":3}, 
+        {"atc":"N02AX02", "name":"tramadol", "qty":30},
+        {"atc":"N02AX06", "name":"tapentadol", "qty":22},
+        {"atc":"N02AA03", "name":"hydromorphone", "qty":10}, 
+        {"atc":"N02AE01", "name":"buprenorphine", "qty":5}, 
+        {"atc":"N02AA55", "name":"oxycodone and naloxone", "qty":2},
+        {"atc": "N02AJ14", "name":"tramadol and dexketoprofen", "qty":10},
+        {"atc": "N02AJ06", "name":"codeine and paracetamol", "qty":10},
+        {"atc":"N02AJ13", "name":"tramadol and paracetamol", "qty":2}, 
+        {"atc":"N02AA59", "name":"codeine, combinations excluding psycholeptics", "qty":1}, 
+        {"atc": "N02AJ08", "name":"codeine and ibuprofen", "qty":1}]
+    },
+    {"class": "Antibiotics", "atc_codes":[
+        {"atc":"J01CA04", "name":"amoxicillin", "qty":20},
+        {"atc":"J01CA01", "name":"ampicillin", "qty":20},
+        {"atc":"J01CA12", "name":"piperacillin", "qty":20},
+        {"atc":"J01DB04", "name":"cefazolin", "qty":22},
+        {"atc":"J01DD04", "name":"ceftriaxone", "qty":22},
+        {"atc":"J01DH02", "name":"meropenem", "qty":22},
+        {"atc":"J01DC02", "name":"cefuroxime", "qty":21},
+        {"atc":"J01DH51", "name":"imipenem and cilastatin", "qty":4}]
+    },
+    {"class": "NSAID", "atc_codes":[
+        {"atc":"M01AE01", "name":"ibuprofen", "qty":9},
+        {"atc":"M01AE02", "name":"naproxen", "qty":9},
+        {"atc":"M01AH01", "name":"celecoxib", "qty":7},
+        {"atc":"M01AB05", "name":"diclofenac", "qty":7},
+        {"atc":"M01AB01", "name":"indometacin", "qty":7},
+        {"atc":"M01AH05", "name":"etoricoxib", "qty":7}]
+    },
+    {"class": "Chemotherapeutic Agents", "atc_codes":[
+        {"atc":"L01XA01", "name":"cisplatin", "qty":1},
+        {"atc":"L01XA02", "name":"carboplatin", "qty":1},
+        {"atc":"L01CD01", "name":"paclitaxel", "qty":1},
+        {"atc":"L01CD02", "name":"docetaxel", "qty":1}]
+    },
+    {"class": "Contrast Media", "atc_codes":[
+        {"atc":"V08AB02", "name":"iohexol", "qty":2},
+        {"atc":"V08AB04", "name":"iopamidol", "qty":1},
+        {"atc":"V08AB05",  "name":"iopromide", "qty":1},
+        {"atc":"V08AB10", "name":"iomeprol", "qty":1},
+        {"atc":"V08CA02", "name":"gadoteric acid", "qty":3},
+        {"atc":"V08CA09", "name":"gadobutrol", "qty":1},
+        {"atc":"V08CA10", "name":"gadoxetic acid", "qty":1}]
+    },
+    {"class": "Non-depolarizing agents", "atc_codes":[
+        {"atc":"M03AC09", "name":"rocuronium bromide", "qty":1},
+        {"atc":"M03AC03", "name":"vecuronium", "qty":1}]
+    },
+    {"class": "ACE Inhibitors", "atc_codes":[
+        {"atc":"C09AA02", "name":"enalapril", "qty":2},
+        {"atc":"C09AA05", "name":"ramipril", "qty":2},
+        {"atc":"C09AA03", "name":"lisinopril", "qty":2}]
+    },
+    {"class": "TNF inhibitors", "atc_codes":[
+        {"atc":"L04AB02", "name":"infliximab", "qty":1},
+        {"atc":"L04AB04", "name":"adalimumab", "qty":1}]
+    },
+    {"class": "Antiepileptics", "atc_codes":[
+        {"atc":"N03AF01", "name":"carbamazepine", "qty":2},
+        {"atc":"N03AB02", "name":"phenytoin", "qty":2}]
+    },
+    {"class": "Antiarrhythmics", "atc_codes":[
+        {"atc":"C01BA02", "name":"procainamide", "qty":1}, 
+        {"atc":"C01BA01", "name":"quinidine", "qty":2}]
+    },
+    {"class": "Local Anesthetics", "atc_codes":[
+        {"atc":"N01BB02", "name":"lidocaine", "qty":2},
+        {"atc":"N01BB01", "name":"bupivacaine", "qty":2},
+        {"atc":"N01BB09", "name":"ropivacaine", "qty":1}]
+    },
+    {"class": "Diuretics", "atc_codes":[
+        {"atc":"C03CA01", "name":"furosemide", "qty":12},
+        {"atc":"C03CA04", "name":"torasemide", "qty":12}]
+    },
+    {"class": "Antiplatelet agents", "atc_codes":[
+        {"atc":"B01AC04", "name":"clopidogrel", "qty":4},
+        {"atc":"B01AC06", "name":"acetylsalicylic acid", "qty":4},
+        {"atc":"B01AC24", "name":"ticagrelor", "qty":4},
+        {"atc":"B01AC22", "name":"prasugrel", "qty":4}]
+    },
+    {"class": "Antidiabetics", "atc_codes":[
+        {"atc":"A10BB01", "name":"glibenclamide", "qty":2}]
+    }
+]
+
+

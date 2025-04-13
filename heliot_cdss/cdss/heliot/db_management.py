@@ -6,6 +6,7 @@ import gc
 from unidecode import unidecode
 import numpy as np
 from typing import List, Dict
+import traceback
 
 class DatabaseManagement:
     def __init__(self, db_uri="drugs_db", store_lower_case=False, compress_attrs=False, tiles=None):
@@ -26,11 +27,12 @@ class DatabaseManagement:
     def create_DBSchema(self):
         # TileDB dimensions. Note: dimensions cannot have dtype=str, it is unsupported.
         drug_code_dim = tiledb.Dim(name="drug_code", tile=self.tiles, dtype="ascii")
+        atc_dim = tiledb.Dim(name="atc", tile=self.tiles, dtype="ascii") 
         composition_dim = tiledb.Dim(name="composition", tile=self.tiles, dtype="ascii")
         excipients_dim = tiledb.Dim(name="excipients", tile=self.tiles, dtype="ascii")
 
         # Create the tileDB domain 
-        domain = tiledb.Domain(drug_code_dim, composition_dim, excipients_dim)
+        domain = tiledb.Domain(drug_code_dim, atc_dim, composition_dim, excipients_dim)
 
         if self.compress_attrs:
             attrs = [
@@ -38,6 +40,7 @@ class DatabaseManagement:
                 tiledb.Attr(name="drug_form", dtype=str),
                 tiledb.Attr(name="therapeutic_indications", dtype=str, filters=tiledb.FilterList([tiledb.ZstdFilter(level=3)])),
                 tiledb.Attr(name="posology", dtype=str,filters=tiledb.FilterList([tiledb.ZstdFilter(level=3)])),
+                tiledb.Attr(name="cross_reactivity", dtype=str, filters=tiledb.FilterList([tiledb.ZstdFilter(level=3)])),
                 tiledb.Attr(name="contraindications", dtype=str,filters=tiledb.FilterList([tiledb.ZstdFilter(level=3)])),
                 tiledb.Attr(name="special_warnings", dtype=str, filters=tiledb.FilterList([tiledb.ZstdFilter(level=3)])),
                 tiledb.Attr(name="drug_interactions", dtype=str, filters=tiledb.FilterList([tiledb.ZstdFilter(level=3)])),
@@ -55,6 +58,7 @@ class DatabaseManagement:
                 tiledb.Attr(name="drug_form", dtype=str),
                 tiledb.Attr(name="therapeutic_indications", dtype=str),
                 tiledb.Attr(name="posology", dtype=str),
+                tiledb.Attr(name="cross_reactivity", dtype=str),
                 tiledb.Attr(name="contraindications", dtype=str),
                 tiledb.Attr(name="special_warnings", dtype=str),
                 tiledb.Attr(name="drug_interactions", dtype=str),
@@ -80,13 +84,15 @@ class DatabaseManagement:
         return value.lower() if isinstance(value, str) else value
 
     # Insert a single drug
-    def insert_drug(self, drug_code: str, drug_name: str, drug_form: str, composition: List, excipients: List, therapeutic_indications: str, posology: str, contraindications: str, special_warnings: str, drug_interactions: str, pregnancy_info: str, driving_effects: str, side_effects: str, over_dose: str, incompatibilities: str, leaflet:str) -> bool:
+    def insert_drug(self, drug_code: str, drug_name: str, atc: str, drug_form: str, composition: List, excipients: List, therapeutic_indications: str, posology: str, cross_reactivity: str, contraindications: str, special_warnings: str, drug_interactions: str, pregnancy_info: str, driving_effects: str, side_effects: str, over_dose: str, incompatibilities: str, leaflet:str) -> bool:
         dtype_dict = {
             "drug_code": str,
             "drug_name": str,
+            "atc": str,
             "drug_form": str,
             "therapeutic_indications": str,
             "posology": str,
+            "cross_reactivity": str,
             "contraindications": str,
             "special_warnings": str,
             "drug_interactions": str,
@@ -105,9 +111,11 @@ class DatabaseManagement:
             composition = [self.to_lower_case(comp) for comp in composition]
             excipients = [self.to_lower_case(exc) for exc in excipients]
             drug_name = self.to_lower_case(drug_name)
+            atc = self.to_lower_case(atc)
             drug_form = self.to_lower_case(drug_form)
             therapeutic_indications = self.to_lower_case(therapeutic_indications)
             posology = self.to_lower_case(posology)
+            cross_reactivity = self.to_lower_case(cross_reactivity)
             contraindications = self.to_lower_case(contraindications)
             special_warnings = self.to_lower_case(special_warnings)
             drug_interactions = self.to_lower_case(drug_interactions)
@@ -120,12 +128,14 @@ class DatabaseManagement:
 
         product_list = list(product(composition, excipients))
         data["drug_code"].extend([drug_code] * len(product_list))
+        data["atc"].extend([atc] * len(product_list))
         data["composition"].extend([comp for comp, exc in product_list])
         data["excipients"].extend([exc for comp, exc in product_list])
         data["drug_name"].extend([drug_name] * len(product_list))
         data["drug_form"].extend([drug_form] * len(product_list))
         data["therapeutic_indications"].extend([therapeutic_indications] * len(product_list))
         data["posology"].extend([posology] * len(product_list))
+        data["cross_reactivity"].extend([cross_reactivity] * len(product_list))
         data["contraindications"].extend([contraindications] * len(product_list))
         data["special_warnings"].extend([special_warnings] * len(product_list))
         data["drug_interactions"].extend([drug_interactions] * len(product_list))
@@ -137,23 +147,25 @@ class DatabaseManagement:
         data["leaflet"].extend([leaflet] * len(product_list))
         unique_data = {}
         for j in range(len(data["drug_code"])):
-            key = (data["drug_code"][j], data["composition"][j], data["excipients"][j])
+            key = (data["drug_code"][j], data["atc"][j], data["composition"][j], data["excipients"][j])
             if key not in unique_data:
                 unique_data[key] = {attr: data[attr][j] for attr in data}
 
         # Prepare data for batch insertion
         formatted_coords = {
             "drug_code": [],
+            "atc": [],
             "composition": [],
             "excipients": [],
         }
-        formatted_data = {attr: [] for attr in data if attr not in ["drug_code", "composition", "excipients"]}
+        formatted_data = {attr: [] for attr in data if attr not in ["drug_code", "atc", "composition", "excipients"]}
 
         # Populate the attributes and dimensions for batch insertion
         for key, value in unique_data.items():
             formatted_coords["drug_code"].append(key[0])
-            formatted_coords["composition"].append(key[1])
-            formatted_coords["excipients"].append(key[2])
+            formatted_coords["atc"].append(key[1])
+            formatted_coords["composition"].append(key[2])
+            formatted_coords["excipients"].append(key[3])
             for attr in value:
                 if attr in formatted_data:
                     formatted_data[attr].append(value[attr])
@@ -166,7 +178,7 @@ class DatabaseManagement:
         with tiledb.open(self.db_uri, mode="w") as array:
             # Sanity check. If it is ok, we can write data
             if coord_length == attr_length:
-                array[formatted_coords["drug_code"], formatted_coords["composition"], formatted_coords["excipients"]] = {k: np.array(v) for k, v in formatted_data.items()}
+                array[formatted_coords["drug_code"], formatted_coords["atc"], formatted_coords["composition"], formatted_coords["excipients"]] = {k: np.array(v) for k, v in formatted_data.items()}
             else:
                 print("Length mismatch between coordinates and attributes!")
                 result = False
@@ -181,9 +193,11 @@ class DatabaseManagement:
         dtype_dict = {
             "drug_code": str,
             "drug_name": str,
+            "atc": str,
             "drug_form": str,
             "therapeutic_indications": str,
             "posology": str,
+            "cross_reactivity": str,
             "contraindications": str,
             "special_warnings": str,
             "drug_interactions": str,
@@ -228,9 +242,11 @@ class DatabaseManagement:
                 data["composition"].extend([comp for comp, exc in product_list])
                 data["excipients"].extend([exc for comp, exc in product_list])
                 data["drug_name"].extend([row["drug_name"]] * len(product_list))
+                data["atc"].extend([row["atc"]] * len(product_list))
                 data["drug_form"].extend([row["drug_form"]] * len(product_list))
                 data["therapeutic_indications"].extend([row["therapeutic_indications"]] * len(product_list))
                 data["posology"].extend([row["posology"]] * len(product_list))
+                data["cross_reactivity"].extend([row["cross_reactivity"]] * len(product_list))
                 data["contraindications"].extend([row["contraindications"]] * len(product_list))
                 data["special_warnings"].extend([row["special_warnings"]] * len(product_list))
                 data["drug_interactions"].extend([row["drug_interactions"]] * len(product_list))
@@ -248,23 +264,25 @@ class DatabaseManagement:
                     # Remove duplicates. It shouldn't happend
                     unique_data = {}
                     for j in range(len(data["drug_code"])):
-                        key = (data["drug_code"][j], data["composition"][j], data["excipients"][j])
+                        key = (data["drug_code"][j], data["atc"][j], data["composition"][j], data["excipients"][j])
                         if key not in unique_data:
                             unique_data[key] = {attr: data[attr][j] for attr in data}
 
                     # Prepare data for batch insertion
                     formatted_coords = {
                         "drug_code": [],
+                        "atc": [],
                         "composition": [],
                         "excipients": [],
                     }
-                    formatted_data = {attr: [] for attr in data if attr not in ["drug_code", "composition", "excipients"]}
+                    formatted_data = {attr: [] for attr in data if attr not in ["drug_code", "atc", "composition", "excipients"]}
 
                     # Populate the attributes and dimensions for batch insertion
                     for key, value in unique_data.items():
                         formatted_coords["drug_code"].append(key[0])
-                        formatted_coords["composition"].append(key[1])
-                        formatted_coords["excipients"].append(key[2])
+                        formatted_coords["atc"].append(key[1])
+                        formatted_coords["composition"].append(key[2])
+                        formatted_coords["excipients"].append(key[3])
                         for attr in value:
                             if attr in formatted_data:
                                 formatted_data[attr].append(value[attr])
@@ -276,7 +294,7 @@ class DatabaseManagement:
 
                     # Sanity check. It is ok, we can write data
                     if coord_length == attr_length:
-                        array[formatted_coords["drug_code"], formatted_coords["composition"], formatted_coords["excipients"]] = {k: np.array(v) for k, v in formatted_data.items()}
+                        array[formatted_coords["drug_code"], formatted_coords["atc"], formatted_coords["composition"], formatted_coords["excipients"]] = {k: np.array(v) for k, v in formatted_data.items()}
                     else:
                         print("Length mismatch between coordinates and attributes!")
                     
@@ -303,7 +321,7 @@ class DatabaseManagement:
         # Open TileDB in read mode
         with tiledb.open(self.db_uri, mode="r") as array:
             # Conditional query for the given drug_code 
-            data = array.query(attrs=["drug_name", "drug_form", "therapeutic_indications", "posology", "contraindications", "special_warnings", "drug_interactions", "pregnancy_info", "driving_effects", "side_effects", "over_dose", "incompatibilities", "leaflet"]).df[drug_code]
+            data = array.query(attrs=["drug_name", "drug_form", "therapeutic_indications", "posology", "cross_reactivity", "contraindications", "special_warnings", "drug_interactions", "pregnancy_info", "driving_effects", "side_effects", "over_dose", "incompatibilities", "leaflet"]).df[drug_code]
 
             if data.empty:
                 return None
@@ -470,6 +488,7 @@ class DatabaseManagement:
             # Prepare data for updating
             update_coords = {
                 "drug_code": [drug_code] * len(composition) * len(excipients),
+                "atc": [existing_data['atc']] * len(composition) * len(excipients),
                 "composition": [comp for comp in composition for _ in excipients],
                 "excipients": [exc for _ in composition for exc in excipients]
             }
@@ -480,8 +499,8 @@ class DatabaseManagement:
             
             # Perform update/insert
             with tiledb.open(self.db_uri, mode="w") as array:
-                array[update_coords["drug_code"], update_coords["composition"], update_coords["excipients"]] = {
-                    k: np.array(v) for k, v in combined_data.items() if k not in ["drug_code", "composition", "excipients"]
+                array[update_coords["drug_code"], update_coords["atc"], update_coords["composition"], update_coords["excipients"]] = {
+                    k: np.array(v) for k, v in combined_data.items() if k not in ["drug_code", "atc", "composition", "excipients"]
                 }
 
             print(f"Updated drug with drug_code: {drug_code}")
@@ -504,7 +523,7 @@ class DatabaseManagement:
             # Open TileDB in read mode
             with tiledb.open(self.db_uri, mode="r") as array:
                 # Query all data
-                data = array.query(attrs=["drug_name", "drug_form", "therapeutic_indications", "posology", "contraindications", "special_warnings", "drug_interactions", "pregnancy_info", "driving_effects", "side_effects", "over_dose", "incompatibilities", "leaflet"]).df[:]
+                data = array.query(attrs=["drug_name", "drug_form", "therapeutic_indications", "posology", "cross_reactivity", "contraindications", "special_warnings", "drug_interactions", "pregnancy_info", "driving_effects", "side_effects", "over_dose", "incompatibilities", "leaflet"]).df[:]
             
             if data.empty:
                 return []
@@ -536,33 +555,97 @@ class DatabaseManagement:
             print(f"Error retrieving all drugs: {e}")
             return []
 
+    def find_drugs_by_atc(self, atc_code: str, drug_code_to_exclude: str = None) -> List[Dict]:
+        try:
+            # Converti in minuscolo se necessario
+            if self.store_lower_case:
+                atc_code = self.to_lower_case(atc_code)
+            
+            print(f"Cercando farmaci con ATC: {atc_code}")
 
+            # Apri TileDB in modalità lettura
+            with tiledb.open(self.db_uri, mode="r") as array:
+                # Query per il codice ATC specifico
+                condition = f"atc == \"\"\"{atc_code}\"\"\""
+                print(f"Condizione query: {condition}")
+                
+                # Prima verifichiamo se ci sono dati con questo ATC
+                test_data = array.query(coords=True).df[:, atc_code, :]
+                print(f"Dati trovati (test): {len(test_data) if not test_data.empty else 0} righe")
+
+                # Query completa
+                data = array.query(attrs=["drug_name", "drug_form", "therapeutic_indications", 
+                                        "posology", "cross_reactivity", "contraindications", 
+                                        "special_warnings", "drug_interactions", "pregnancy_info", 
+                                        "driving_effects", "side_effects", "over_dose", 
+                                        "incompatibilities", "leaflet"]).df[:, atc_code, :]
+                
+                print(f"Dati trovati (query completa): {len(data) if not test_data.empty else 0} righe")
+
+            if data.empty:
+                print("Nessun dato trovato")
+                return []
+
+            # Aggrega i risultati per drug_code
+            aggregated_result = []
+            grouped_data = data.groupby('drug_code')
+            
+            for drug_code, group_data in grouped_data:
+                if drug_code_to_exclude and drug_code == drug_code_to_exclude:
+                    continue
+                compositions = set(group_data['composition'])
+                excipients = set(group_data['excipients'])
+
+                # Crea il dizionario per il farmaco
+                drug_info = group_data.iloc[0].to_dict()
+                drug_info['composition'] = list(compositions)
+                drug_info['excipients'] = list(excipients)
+
+                # Converti i bytes in stringhe se necessario
+                if isinstance(drug_code, bytes):
+                    drug_info['drug_code'] = drug_code.decode('utf-8')
+                for key in drug_info.keys():
+                    if isinstance(drug_info[key], bytes):
+                        drug_info[key] = drug_info[key].decode('utf-8')
+
+                aggregated_result.append(drug_info)
+
+            print(f"Numero di farmaci trovati dopo aggregazione: {len(aggregated_result)}")
+            return aggregated_result
+
+        except Exception as e:
+            print(f"Errore nella ricerca dei farmaci per codice ATC {atc_code}: {e}")
+            traceback.print_exc()  # Stampa lo stack trace completo
+            return []
+
+    
 if __name__ == "__main__":
     # Create the database
     dm = DatabaseManagement(store_lower_case=True) #, compress_attrs=True, tiles=20)
     dm.create_and_populate_DBFromCSV()
 
     # Search a drug by drug_code 
-    drug_code_to_search = "034329110"  # Choose a different drug_code you want to search for
+    drug_code_to_search = "044089062"  # Choose a different drug_code you want to search for
     start_time = time.time()  # Start the measurement time
     result = dm.search_drug(drug_code_to_search)
     end_time = time.time()  # End measurement time
     print(f"Execution time to search the drug by code: {end_time - start_time:.2f} seconds")
 
     if result:
-        print("Drug found")
+        print("Drug found", result['atc'], result['cross_reactivity'])
         #print("DRUG CODE",result['drug_code'],"\n", print(result['side_effects']))
     else:
         print("Drug not found")
 
     # Search for a new drug_code
     start_time = time.time()  # Start the measurement time
-    result = dm.search_drug("050596055")
+    result = dm.search_drug("020766034")
     end_time = time.time()  # End measurement time
     print(f"Execution time to search the drug by code: {end_time - start_time:.2f} seconds")
 
-    cmp = result['composition']
-    print("DRUG CODE",result['drug_code'])
+    if result:
+        cmp = result['composition']
+        print("DRUG CODE",result['drug_code'], result['atc'])
     print("\n")
     #print(result['side_effects'])
 
@@ -605,6 +688,13 @@ if __name__ == "__main__":
     else:
         print("DRUG CODE 027890146 not found")
 
+
+    result = dm.find_drugs_by_atc('A02BA02','035398357')
+    if result is not None:
+        print("=============== SIMILAR DRUGS")
+        for r in result:
+            print(r['drug_code'])
+        print("=============== ")
     '''
     print("DELETE DRUG")
     start_time = time.time()  # Start the measurement time

@@ -1,0 +1,322 @@
+{
+  "cases": [
+    {
+      "class": "1",
+      "match_type": "N/A",
+      "tolerance": "N/A",
+      "alert": "NO ALERT NEEDED",
+      "reaction_types": "None",
+      "drug_class_cases": [
+        {"drug_class": "Opioids", "cases": 4},
+        {"drug_class": "Antibiotics", "cases": 1},
+        {"drug_class": "NSAID", "cases": 1},
+        {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+        {"drug_class": "Contrast Media", "cases": 1},
+        {"drug_class": "Antiplatelet agents", "cases": 1},
+        {"drug_class": "Diuretics", "cases": 1},
+        {"drug_class": "Other", "cases": 1}
+      ],
+      "total": 11
+    },
+    {
+      "class": "2.1",
+      "match_type": "DEFINITE",
+      "tolerance": "None",
+      "alert": "INTERRUPTIVE ALERT",
+      "reaction_types": "Life-threatening",
+      "drug_class_cases": [
+        {"drug_class": "Opioids", "cases": 2},
+        {"drug_class": "Antibiotics", "cases": 1},
+        {"drug_class": "NSAID", "cases": 1},
+        {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+        {"drug_class": "Contrast Media", "cases": 1},
+        {"drug_class": "Antiplatelet agents", "cases": 1},
+        {"drug_class": "Diuretics", "cases": 1},
+        {"drug_class": "Other", "cases": 1}
+      ],
+      "total": 9
+    },
+    {
+      "class": "2.2",
+      "match_type": "DEFINITE",
+      "tolerance": "None",
+      "alert": "INTERRUPTIVE ALERT",
+      "reaction_types": "Non life-threatening immune-mediated",
+      "drug_class_cases": [
+        {"drug_class": "Opioids", "cases": 4},
+        {"drug_class": "Antibiotics", "cases": 2},
+        {"drug_class": "NSAID", "cases": 1},
+        {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+        {"drug_class": "Contrast Media", "cases": 1},
+        {"drug_class": "Antiplatelet agents", "cases": 1},
+        {"drug_class": "Diuretics", "cases": 1},
+        {"drug_class": "Other", "cases": 1}
+      ],
+      "total": 12
+    },
+    {
+      "class": "2.3",
+      "match_type": "DEFINITE",
+      "tolerance": "None",
+      "alert": "NON-INTERRUPTIVE ALERT",
+      "reaction_types": "Non life-threatening non immune-mediated",
+      "drug_class_cases": [
+        {"drug_class": "Opioids", "cases": 2},
+        {"drug_class": "Antibiotics", "cases": 1},
+        {"drug_class": "NSAID", "cases": 1},
+        {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+        {"drug_class": "Contrast Media", "cases": 1},
+        {"drug_class": "Antiplatelet agents", "cases": 1},
+        {"drug_class": "Diuretics", "cases": 1},
+        {"drug_class": "Other", "cases": 1}
+      ],
+      "total": 9
+    },
+    {
+      "class": "3.1",
+      "match_type": "DEFINITE",
+      "tolerance": "None",
+      "alert": "INTERRUPTIVE ALERT",
+      "reaction_types": "Life-threatening",
+      "excipient_cases": [
+        {"excipient": "Peanut Oil", "cases": 1},
+        {"excipient": "Egg Proteins", "cases": 1},
+        {"excipient": "Gelatin", "cases": 1},
+        {"excipient": "Polyethylene Glycol (PEG)", "cases": 2},
+        {"excipient": "Latex", "cases": 1}
+      ],
+      "total": 6
+    },
+    {
+        "class": "3.2",
+        "match_type": "DEFINITE",
+        "tolerance": "None",
+        "alert": "INTERRUPTIVE ALERT",
+        "reaction_types": "Non life-threatening immune-mediated",
+        "excipient_cases": [
+          {"excipient": "Lanolin", "cases": 1},
+          {"excipient": "Tartrazine", "cases": 1},
+          {"excipient": "Gelatin", "cases": 1},
+          {"excipient": "Latex", "cases": 1}
+        ],
+        "total": 4
+      },
+      {
+        "class": "3.3",
+        "match_type": "DEFINITE",
+        "tolerance": "None",
+        "alert": "NON-INTERRUPTIVE ALERT",
+        "reaction_types": "Non life-threatening non immune-mediated",
+        "excipient_cases": [
+          {"excipient": "Lactose", "cases": 1},
+          {"excipient": "Sulfites", "cases": 1},
+          {"excipient": "Benzyl Alcohol", "cases": 1},
+          {"excipient": "Propylene Glycol", "cases": 1},
+          {"excipient": "Tartrazine", "cases": 1},
+          {"excipient": "Aspartame", "cases": 1},
+          {"excipient": "Corn Products", "cases": 1},
+          {"excipient": "Lanolin", "cases": 1},
+          {"excipient": "Carboxymethylcellulose (CMC)", "cases": 1},
+          {"excipient": "Methylcellulose", "cases": 1},
+          {"excipient": "Polysorbates", "cases": 1},
+          {"excipient": "Poloxamers", "cases": 1},
+          {"excipient": "Soy-based Products", "cases": 1},
+          {"excipient": "Sunset Yellow FCF", "cases": 1}
+        ],
+        "total": 14
+      },
+      {
+        "class": "4",
+        "match_type": "NO MATCH",
+        "tolerance": "None",
+        "alert": "NO ALERT NEEDED",
+        "reaction_types": "None",
+        "excipients": [],
+        "drug_class_cases": [
+          {"drug_class": "Opioids", "cases": 7},
+          {"drug_class": "Antibiotics", "cases": 2},
+          {"drug_class": "NSAID", "cases": 1},
+          {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+          {"drug_class": "Contrast Media", "cases": 1},
+          {"drug_class": "Antiplatelet agents", "cases": 1},
+          {"drug_class": "Diuretics", "cases": 1},
+          {"drug_class": "Other", "cases": 1}
+        ],
+        "total": 15
+      },
+      {
+        "class": "5",
+        "match_type": "NO MATCH",
+        "tolerance": "None",
+        "alert": "NO ALERT NEEDED",
+        "reaction_types": "None",
+        "drug_class_cases": [
+          {"drug_class": "Opioids", "cases": 7},
+          {"drug_class": "Antibiotics", "cases": 2},
+          {"drug_class": "NSAID", "cases": 1},
+          {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+          {"drug_class": "Contrast Media", "cases": 1},
+          {"drug_class": "Antiplatelet agents", "cases": 1},
+          {"drug_class": "Diuretics", "cases": 1},
+          {"drug_class": "Other", "cases": 1}
+        ],
+        "total": 15
+      },
+      {
+        "class": "6.1",
+        "match_type": "POSSIBLE",
+        "tolerance": "None",
+        "alert": "INTERRUPTIVE ALERT",
+        "reaction_types": "Life-threatening",
+        "excipient_cases": [
+          {"excipient": "Polysorbates", "cases": 5},
+          {"excipient": "Poloxamers", "cases": 3},
+          {"excipient": "Hydroxyethyl starch", "cases": 3},
+          {"excipient": "Cremophor", "cases": 2},
+          {"excipient": "Polyethylene Glycol (PEG)", "cases": 2}
+        ],
+        "total": 15
+      },
+      {
+        "class": "6.2",
+        "match_type": "POSSIBLE",
+        "tolerance": "None",
+        "alert": "INTERRUPTIVE ALERT",
+        "reaction_types": "Non life-threatening immune-mediated",
+        "excipient_cases": [
+          {"excipient": "Polysorbates", "cases": 3},
+          {"excipient": "Poloxamers", "cases": 2},
+          {"excipient": "Hydroxyethyl starch", "cases": 2},
+          {"excipient": "Cremophor", "cases": 1},
+          {"excipient": "Polyethylene Glycol (PEG)", "cases": 1}
+        ],
+        "total": 9
+      },
+      {
+        "class": "6.3",
+        "match_type": "POSSIBLE",
+        "tolerance": "None",
+        "alert": "INTERRUPTIVE ALERT",
+        "reaction_types": "Non life-threatening non immune-mediated",
+        "excipient_cases": [
+          {"excipient": "Carboxymethylcellulose (CMC)", "cases": 4},
+          {"excipient": "Benzyl Alcohol", "cases": 4},
+          {"excipient": "Parabens", "cases": 4},
+          {"excipient": "Lanolin", "cases": 3},
+          {"excipient": "Hydroxypropyl methylcellulose (HPMC)", "cases": 3},
+          {"excipient": "Hydroxyethylcellulose", "cases": 3},
+          {"excipient": "Pentylene glycol or Butylene glycol", "cases": 2},
+          {"excipient": "methylparaben", "cases": 3}
+        ],
+        "total": 26
+      },
+      {
+        "class": "7.1",
+        "match_type": "POSSIBLE",
+        "tolerance": "None",
+        "alert": "INTERRUPTIVE ALERT",
+        "reaction_types": "Life-threatening",
+        "drug_class_cases": [
+          {"drug_class": "Opioids", "cases": 72},
+          {"drug_class": "Antibiotics", "cases": 20},
+          {"drug_class": "NSAID", "cases": 5},
+          {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+          {"drug_class": "Contrast Media", "cases": 1},
+          {"drug_class": "Antiplatelet agents", "cases": 1},
+          {"drug_class": "Diuretics", "cases": 2},
+          {"drug_class": "Other", "cases": 1}
+        ],
+        "total": 103
+      },
+      {
+        "class": "7.2",
+        "match_type": "POSSIBLE",
+        "tolerance": "None",
+        "alert": "INTERRUPTIVE ALERT",
+        "reaction_types": "Non life-threatening immune-mediated",
+        "drug_class_cases": [
+          {"drug_class": "Opioids", "cases": 185},
+          {"drug_class": "Antibiotics", "cases": 60},
+          {"drug_class": "NSAID", "cases": 20},
+          {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+          {"drug_class": "Contrast Media", "cases": 1},
+          {"drug_class": "Antiplatelet agents", "cases": 1},
+          {"drug_class": "Diuretics", "cases": 2},
+          {"drug_class": "Other", "cases": 1}
+        ],
+        "total": 103
+      },       
+      {
+        "class": "7.3",
+        "match_type": "POSSIBLE",
+        "tolerance": "None",
+        "alert": "NON-INTERRUPTIVE ALERT",
+        "reaction_types": "Non life-threatening non immune-mediated",
+        "drug_class_cases": [
+          {"drug_class": "Opioids", "cases": 90},
+          {"drug_class": "Antibiotics", "cases": 25},
+          {"drug_class": "NSAID", "cases": 5},
+          {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+          {"drug_class": "Contrast Media", "cases": 1},
+          {"drug_class": "Antiplatelet agents", "cases": 1},
+          {"drug_class": "Diuretics", "cases": 2},
+          {"drug_class": "Other", "cases": 1}
+        ],
+        "total": 126
+      },
+      {
+        "class": "8.1",
+        "match_type": "POSSIBLE",
+        "tolerance": "Documented",
+        "alert": "NO ALERT NEEDED",
+        "reaction_types": "Life-threatening",
+        "drug_class_cases": [
+          {"drug_class": "Opioids", "cases": 100},
+          {"drug_class": "Antibiotics", "cases": 4},
+          {"drug_class": "NSAID", "cases": 2},
+          {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+          {"drug_class": "Contrast Media", "cases": 1},
+          {"drug_class": "Antiplatelet agents", "cases": 1},
+          {"drug_class": "Diuretics", "cases": 1},
+          {"drug_class": "Other", "cases": 1}
+        ],
+        "total": 111
+      },      
+      {
+        "class": "8.2",
+        "match_type": "POSSIBLE",
+        "tolerance": "Documented",
+        "alert": "NO ALERT NEEDED",
+        "reaction_types": "Non life-threatening immune-mediated",
+        "drug_class_cases": [
+          {"drug_class": "Opioids", "cases": 100},
+          {"drug_class": "Antibiotics", "cases": 18},
+          {"drug_class": "NSAID", "cases": 4},
+          {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+          {"drug_class": "Contrast Media", "cases": 1},
+          {"drug_class": "Antiplatelet agents", "cases": 4},
+          {"drug_class": "Diuretics", "cases": 4},
+          {"drug_class": "Other", "cases": 1}
+        ],
+        "total": 133
+      },
+      {
+        "class": "8.3",
+        "match_type": "POSSIBLE",
+        "tolerance": "Documented",
+        "alert": "NO ALERT NEEDED",
+        "reaction_types": "Non life-threatening non immune-mediated",
+        "drug_class_cases": [
+          {"drug_class": "Opioids", "cases": 80},
+          {"drug_class": "Antibiotics", "cases": 15},
+          {"drug_class": "NSAID", "cases": 4},
+          {"drug_class": "Chemotherapeutic Agents", "cases": 1},
+          {"drug_class": "Contrast Media", "cases": 1},
+          {"drug_class": "Antiplatelet agents", "cases": 2},
+          {"drug_class": "Diuretics", "cases": 7},
+          {"drug_class": "Other", "cases": 1}
+        ],
+        "total": 111
+      }                             
+  ]
+}

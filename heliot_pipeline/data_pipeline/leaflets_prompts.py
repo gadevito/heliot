@@ -25,6 +25,9 @@ USER_PROCESS_INACTIVE_INGREDIENTS="""Your task is to extract only the drug's ina
 ### Output Format:
 List of inactive ingredients separated by #
 
+**Important:**
+Focus only on the exact pharmaceutical form of the drug to extract its composition.
+
 Report only the list, nothing else."""
 
 USER_PROCESS_POSOLOGY = """Your task is to extract the posology only for the drug name and its pharmaceutical form I'll provide below.
@@ -105,3 +108,43 @@ USER_PROCESS_INTERACTIONS = """Your task is to extract the drug interactions onl
 
 ### Output format:
 If the  "Drug interactions" text is fully related to the specific drug name and its pharmaceutical form I provided and does not mention information related to different pharmaceutical forms of the provided drug, simply answer "<<ALL>>", otherwise report only the interactions related to the drug name and its pharmaceutical form I provided."""
+
+USER_PROCESS_CROSS_REACTIONS = """In the following text, I need to know the active ingredients that cause cross-reactivity for the following drug with other drugs.
+
+## DRUG INFO ##
+Drug: {drug_name}
+Active Ingredients of the drug: {active_ingredients}
+
+## TEXT ##
+{text}
+
+## Instructions ##
+1. **Thorough Analysis:** Carefully read and analyze the entire text provided. Pay special attention to any sections discussing allergies, hypersensitivity, cross-reactivity, and other drug interactions.
+
+2. **Focus on Cross-Reactivity and Allergies:** Identify only explicit mentions of allergic cross-reactivity or hypersensitivity that involve the active ingredient(s) of the specified drug and other drugs. This includes direct statements about cross-reactivity due to allergies, as well as any implications or warnings related to it. Distinguish between allergic reactions and other types of interactions or adverse effects.
+
+3. **Highlight Specific Drugs:** Specifically look for mentions of other drugs that may cause cross-reactivity with the active ingredient(s) of the given drug due to allergies. Ensure that these are drugs not listed as active ingredients in the given drug.
+
+4. **Exact Drug Names:** All drug names must be reported exactly as they appear within the text. Singularize names where necessary and maintain consistency with the text.
+
+5. **Assess and Report:** If the text provides information on cross-reactivity caused by allergies with other drugs, report it in the specified JSON format. If the text discusses other types of interactions or adverse effects without mentioning allergies, note this distinction. If no such information is present, return an empty JSON.
+
+## Output Format ##
+JSON:
+```json
+{{
+  "description": "Provide a concise overview (1-2 paragraphs) of clinical/theoretical evidence supporting the possibility of cross-sensitivity between drugs due to allergies. Include any warnings or alerts relevant to this issue. If the text discusses other interactions or adverse effects, do not report it.", 
+  "incidence": "State the reported cross-sensitivity rate due to allergies. Use values like: At least X%|Up to X%|X%|X-Y%|Common|Uncommon|Rare|Single case reports|Theoretical. If not allergy-related, specify 'Not applicable'.", 
+  "da": "Specify the drug active ingredient causing cross-reactivity due to allergies", 
+  "cross_sensitive_drugs": [{{"ai": "List all potential active ingredients from other drugs that cause cross-reaction due to allergies. Names must be reported exactly as they appear in the text. Singularized."}}]
+}}
+```
+
+**Important:** 
+- Use singular forms where applicable.
+- Description must start be reported as an alert, but do not start it with "Alert:".
+- Ensure accuracy in reporting drug names as they appear in the text.
+- The text must explicit contain known cross-reactive drugs. For example, Beta-lactams, Antibiotic sulfonamides, Proton pump inhibitors, Opioids, ASA and nonsteroidal anti-inflammatory drugs, neuromuscular blocking agents, Radiocontrast media, etc.
+- Focus on explicit drug cross-reactivity due to allergies with drugs not listed as active ingredients in the given drug. If no such explicit information is found, report an empty JSON.
+
+Answer only with the JSON:"""

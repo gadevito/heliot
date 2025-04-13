@@ -55,6 +55,21 @@ class SynonymManager:
         """
         return self.synonym_to_ingredient.get(synonym, synonym)
 
+    def find_standard_names(self, synonyms):
+        """
+        Look for the standard name of the ingredient starting from its synonym.
+        
+        Parameters:
+        - synonym: synonym for the ingredient to look for.
+
+        Returns:
+        - Standard ingredient name for the synonym or None it didn't find one.
+        """
+        res = []
+        for s in synonyms:
+            res.append({"n":s, "t":self.synonym_to_ingredient.get(s, s)})
+        return res
+
     def add_ingredient(self, ingredient, english_name, type_, synonyms):
         """
         Add a new ingredient and update the dictionary.

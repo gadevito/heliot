@@ -15,10 +15,11 @@ class LeafletInfo:
         self.drug_name= ""
         self.drug_form=""
         self.leaflet = ""
+        self.atc = ""
         self.composition =""
         self.clinicalInfo = {"full_text": "", "therapeutic_indications": "", "posology": "", "contraindications": "", "special_warnings": "", "drug_interactions": "", "pregnancy_info": "", "driving_effects": "","side_effects" :"", "over_dose":""}
         self.PharmaInfo = {"full_text":"", "excipients": "", "incompatibilities": ""}
-
+        self.cross_reaction = {}
         self.ingredients=""
         self.excipients_tokens = 0
         self.special_warnings_tokens = 0
@@ -35,6 +36,7 @@ class LeafletInfo:
                 f"  drug_code: {self.drug_code}\n"
                 f"  drug_name: {self.drug_name}\n"
                 f"  drug_form: {self.drug_form}\n"
+                f"  atc: {self.atc}\n"
                 f"  leaflet: {self.leaflet}\n"
                 f"  composition: {self.composition}\n"
                 f"  excipients: {ecc}\n"
