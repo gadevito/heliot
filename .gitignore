@@ -1,1 +1,7 @@
 heliot_pipeline/documents/
+heliot_cdss/drugs_db/
+heliot_cdss/medical_narrative/
+heliot_cdss/patients_synthetic_orig.xlsx
+heliot_cdss/processed_data.xlsx
+__pycache__/
+**/__pycache__/
